@@ -1,0 +1,168 @@
+/* ===== RESET BÁSICO ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+  min-height: 100vh;
+  padding: 30px;
+  color: #333;
+}
+
+/* ===== TÍTULOS ===== */
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2a4b8d;
+  font-size: 2rem;
+}
+
+/* ===== FORMULÁRIOS ===== */
+form {
+  background-color: #ffffff;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 5px;
+  border: 1px solid #bfc9e1;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+  border-color: #2a4b8d;
+  outline: none;
+  box-shadow: 0 0 5px rgba(42, 75, 141, 0.3);
+}
+
+/* ===== CHECKBOXES ===== */
+input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* ===== BOTÕES ===== */
+input[type="submit"],
+a.btn {
+  display: inline-block;
+  background-color: #2a4b8d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+  margin-top: 20px;
+}
+
+input[type="submit"]:hover,
+a.btn:hover {
+  background-color: #1d3463;
+  transform: scale(1.03);
+}
+
+/* ===== TABELA ===== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead {
+  background-color: #2a4b8d;
+  color: #fff;
+}
+
+th, td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #dcdcdc;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f5f8ff;
+}
+
+tbody tr:hover {
+  background-color: #e8efff;
+}
+
+/* ===== LINKS DE AÇÃO ===== */
+td a {
+  color: #2a4b8d;
+  text-decoration: none;
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+td a:hover {
+  color: #1b2f5d;
+  text-decoration: underline;
+}
+
+/* ===== BOTÃO ADICIONAR ===== */
+a[href*="create"] {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+a[href*="create"]:hover {
+  background-color: #1f7d36;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 700px) {
+  form, .container {
+    padding: 20px;
+  }
+
+  th, td {
+    padding: 10px 8px;
+    font-size: 0.9rem;
+  }
+
+  h1 {
+    font-size: 1.6rem;
+  }
+}
