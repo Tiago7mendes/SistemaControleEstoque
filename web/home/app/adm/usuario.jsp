@@ -19,6 +19,7 @@
                     <th>ID</th>
                     <th>Nome</th>
                     <th>CPF</th>
+                    <th>Email</th>
                     <th>TipoUsuario</th>
                     <th>Ações</th>
                 </tr>
@@ -29,6 +30,7 @@
                     <td><%= us.getId() %></td>
                     <td><%= us.getNome() %></td>
                     <td><%= us.getCpf() %></td> 
+                    <td><%= us.getEmail() %></td> 
                     <td><%= us.getTipoUsuarioId()%></td>
                     <td> 
                         <a href="<%= request.getContextPath() %>/home/app/adm/usuario_form.jsp?action=update&id=<%= us.getId() %>">Alterar</a>

@@ -24,7 +24,7 @@ public class AutenticadorAdm implements Filter {
         
         TipoUsuario tipoUsuario = (TipoUsuario) sessao.getAttribute("tipo_usuario");
         
-        if (tipoUsuario.getModuloAdministrativo().equals("S") == false) {
+        if (tipoUsuario.getModuloAdmin().equals("S") == false) {
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/home/app/menu.jsp");
         } else{
             // se logado, continue

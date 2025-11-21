@@ -7,9 +7,11 @@ public class TipoUsuario extends DataAccessObject {
     
     private int id;
     private String nome;
-    private String moduloAdministrativo;
-    private String moduloAgendamento;
-    private String moduloAtendimento;
+    private String moduloAdmin;
+    private String moduloEstoque;
+    private String moduloFornecedores;
+    private String moduloMovimentacoes;
+    private String moduloCompras;
 
     public TipoUsuario() {
         super("tipo_usuario");
@@ -23,16 +25,24 @@ public class TipoUsuario extends DataAccessObject {
         return nome;
     }
 
-    public String getModuloAdministrativo() {
-        return moduloAdministrativo;
+    public String getModuloAdmin() {
+        return moduloAdmin;
     }
 
-    public String getModuloAgendamento() {
-        return moduloAgendamento;
+    public String getModuloEstoque() {
+        return moduloEstoque;
     }
 
-    public String getModuloAtendimento() {
-        return moduloAtendimento;
+    public String getModuloFornecedores() {
+        return moduloFornecedores;
+    }
+
+    public String getModuloMovimentacoes() {
+        return moduloMovimentacoes;
+    }
+
+    public String getModuloCompras() {
+        return moduloCompras;
     }
 
     public void setId(int id) {
@@ -45,19 +55,29 @@ public class TipoUsuario extends DataAccessObject {
         addChange("nome", this.nome);
     }
 
-    public void setModuloAdministrativo(String moduloAdministrativo) {
-        this.moduloAdministrativo = moduloAdministrativo;
-        addChange("modulo_administrativo", this.moduloAdministrativo);
+    public void setModuloAdmin(String moduloAdmin) {
+        this.moduloAdmin = moduloAdmin;
+        addChange("modulo_administrativo", this.moduloAdmin);
     }
 
-    public void setModuloAgendamento(String moduloAgendamento) {
-        this.moduloAgendamento = moduloAgendamento;
-        addChange("modulo_agendamento", this.moduloAgendamento);
+    public void setModuloEstoque(String moduloEstoque) {
+        this.moduloEstoque = moduloEstoque;
+        addChange("modulo_estoque", this.moduloEstoque);
     }
 
-    public void setModuloAtendimento(String moduloAtendimento) {
-        this.moduloAtendimento = moduloAtendimento;
-        addChange("modulo_atendimento", this.moduloAtendimento);
+    public void setModuloFornecedores(String moduloFornecedores) {
+        this.moduloFornecedores = moduloFornecedores;
+        addChange("modulo_fornecedores", this.moduloFornecedores);
+    }
+
+    public void setModuloMovimentacoes(String moduloMovimentacoes) {
+        this.moduloMovimentacoes = moduloMovimentacoes;
+        addChange("modulo_movimentacoes", this.moduloMovimentacoes);
+    }
+
+    public void setModuloCompras(String moduloCompras) {
+        this.moduloCompras = moduloCompras;
+        addChange("modulo_compras", this.moduloCompras);
     }
 
     @Override
@@ -70,10 +90,12 @@ public class TipoUsuario extends DataAccessObject {
         // segue a ordem das colunas da tabela no banco de dados
         id = (int) data.get(0);
         nome = (String) data.get(1);
-        moduloAdministrativo = (String) data.get(2);
-        moduloAgendamento = (String) data.get(3);
-        moduloAtendimento = (String) data.get(4);
-        
+        moduloAdmin = (String) data.get(2);
+        moduloEstoque = (String) data.get(3);
+        moduloFornecedores = (String) data.get(4);
+        moduloMovimentacoes = (String) data.get(5);
+        moduloCompras = (String) data.get(6);
+                
         return this;
     }
 
@@ -83,9 +105,11 @@ public class TipoUsuario extends DataAccessObject {
         
         cp.setId(getId());
         cp.setNome(getNome());
-        cp.setModuloAdministrativo(getModuloAdministrativo());
-        cp.setModuloAgendamento(getModuloAgendamento());
-        cp.setModuloAtendimento(getModuloAtendimento());
+        cp.setModuloAdmin(getModuloAdmin());
+        cp.setModuloEstoque(getModuloEstoque());
+        cp.setModuloFornecedores(getModuloFornecedores());
+        cp.setModuloMovimentacoes(getModuloMovimentacoes());
+        cp.setModuloCompras(getModuloCompras());
         
         cp.setNovelEntity(false); // copiou um existente
         
@@ -94,6 +118,6 @@ public class TipoUsuario extends DataAccessObject {
     
     @Override
     public String toString() {
-        return "(" + getId() + ", " + getNome() + ", " + getModuloAdministrativo() + ", " + getModuloAgendamento() + ", " + getModuloAtendimento() + ")";
+        return "(" + getId() + ", " + getNome() + ", " + getModuloAdmin() + ", " + getModuloEstoque() + ", " + getModuloFornecedores() + ", " + getModuloMovimentacoes() + ", " + getModuloCompras() + ")";
     }
 }

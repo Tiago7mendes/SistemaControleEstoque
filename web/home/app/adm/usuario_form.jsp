@@ -43,13 +43,8 @@
             <input type="text" id="cpf" name="cpf" pattern="\d{3}\.d\{3}\.d{3}-\d{2}" title="DDD.DDD.DDD-DD" value="<%= ((us != null) && (us.getCpf() != null)) ? us.getCpf(): ""%>">
             <br>
             
-            <label for="cep">CEP:</label>
-            <input type="text" id="cep" name="cep" pattern="\d{5}-d\{3}" title="DDDDD-DDD">
-            <input type="button" id="buscar_por_cep" name="buscar_por_cep" value="Buscar Endereço">
-            <br>
-            
-            <label>Endereço</label>
-            <textarea id="endereco" name="endereco" rows="4" cols="50"><%= ((us != null) && (us.getEndereco()!= null)) ? us.getEndereco(): ""%></textarea>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<%= ((us != null)) ? us.getEmail() : "" %>" required>
             <br>
             
             <label for="tipoUsuario">Tipo Usuario:</label>

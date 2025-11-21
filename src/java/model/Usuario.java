@@ -12,7 +12,7 @@ public class Usuario extends DataAccessObject {
     private String nome;
     private String cpf;
     private String senha;
-    private String endereco;
+    private String email;
     private int tipoUsuarioId; // chave estrangeira para tipo_usuario
 
     public Usuario() {
@@ -35,8 +35,8 @@ public class Usuario extends DataAccessObject {
         return senha;
     }
     
-    public String getEndereco() {
-        return endereco;
+    public String getEmail() {
+        return email;
     }
 
     public int getTipoUsuarioId() {
@@ -59,9 +59,9 @@ public class Usuario extends DataAccessObject {
         addChange("cpf", this.cpf);
     }
     
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-        addChange("endereco", this.endereco);
+    public void setEmail(String email) {
+        this.email = email;
+        addChange("email", this.email);
     }
 
     public void setSenha(String senha) throws Exception{
@@ -102,7 +102,7 @@ public class Usuario extends DataAccessObject {
         nome = (String) data.get(1); // coluna 2
         senha = (String) data.get(2);  // coluna 3
         cpf = (String) data.get(3);// coluna 4
-        endereco = (String) data.get(4);// coluna 5
+        email = (String) data.get(4);// coluna 5
         tipoUsuarioId = (int) data.get(5); // coluna 6
         
         return this;
@@ -116,7 +116,7 @@ public class Usuario extends DataAccessObject {
         cp.setNome(getNome());
         cp.senha = getSenha();
         cp.setCpf(getCpf());
-        cp.setEndereco(getEndereco());
+        cp.setEmail(getEmail());
         cp.setTipoUsuarioId(getTipoUsuarioId());
         
         cp.setNovelEntity(false); // copiou um existente

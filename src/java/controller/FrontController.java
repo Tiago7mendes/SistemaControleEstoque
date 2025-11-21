@@ -114,19 +114,29 @@ public class FrontController extends HttpServlet {
         int id = Integer.valueOf(request.getParameter("id"));
         String nome = request.getParameter("nome");
         
-        String moduloAdministrativo = request.getParameter("modulo_administrativo");
-        if (moduloAdministrativo == null) {
-            moduloAdministrativo = "N";
+        String moduloAdmin = request.getParameter("modulo_admin");
+        if (moduloAdmin == null) {
+            moduloAdmin = "N";
         }
         
-        String moduloAgendamento = request.getParameter("modulo_agendamento");
-        if (moduloAgendamento == null) {
-            moduloAgendamento = "N";
+        String moduloEstoque = request.getParameter("modulo_estoque");
+        if (moduloEstoque == null) {
+            moduloEstoque = "N";
         }
         
-        String moduloAtendimento = request.getParameter("modulo_atendimento");
-        if (moduloAtendimento == null) {
-            moduloAtendimento = "N";
+        String moduloFornecedores = request.getParameter("modulo_fornecedores");
+        if (moduloFornecedores == null) {
+            moduloFornecedores = "N";
+        }
+        
+        String moduloMovimentacoes = request.getParameter("modulo_movimentacoes");
+        if (moduloMovimentacoes == null) {
+            moduloMovimentacoes = "N";
+        }
+        
+        String moduloCompras = request.getParameter("modulo_compras");
+        if (moduloCompras == null) {
+            moduloCompras = "N";
         }
 
         // Java Bean
@@ -137,9 +147,11 @@ public class FrontController extends HttpServlet {
         if (action.equals("update")) tp.load();
 
         tp.setNome(nome);
-        tp.setModuloAdministrativo(moduloAdministrativo);
-        tp.setModuloAgendamento(moduloAgendamento);
-        tp.setModuloAtendimento(moduloAtendimento);
+        tp.setModuloAdmin(moduloAdmin);
+        tp.setModuloEstoque(moduloEstoque);
+        tp.setModuloFornecedores(moduloFornecedores);
+        tp.setModuloMovimentacoes(moduloMovimentacoes);
+        tp.setModuloCompras(moduloCompras);
 
         tp.save();
         
@@ -154,7 +166,7 @@ public class FrontController extends HttpServlet {
         String nome = request.getParameter("nome");
         String senha = request.getParameter("senha");
         String cpf = request.getParameter("cpf");
-        String endereco = request.getParameter("endereco");
+        String email = request.getParameter("email");
         int tipoUsuario = Integer.valueOf(request.getParameter("tipoUsuario"));
 
         // Java Bean
@@ -167,7 +179,7 @@ public class FrontController extends HttpServlet {
         us.setNome(nome);
         us.setSenha(senha);
         us.setCpf(cpf);
-        us.setEndereco(endereco);
+        us.setEmail(email);
         us.setTipoUsuarioId(tipoUsuario);
 
         us.save();

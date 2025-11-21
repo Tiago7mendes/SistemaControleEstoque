@@ -19,8 +19,10 @@
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Administrativo</th>
-                    <th>Agendamento</th>
-                    <th>Atendimento</th>
+                    <th>Estoque</th>
+                    <th>Fornecedores</th>
+                    <th>Movimentações</th>
+                    <th>Compras</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -29,9 +31,11 @@
                 <tr>
                     <td><%= tp.getId() %></td>
                     <td><%= tp.getNome() %></td>
-                    <td><%= tp.getModuloAdministrativo()%></td>
-                    <td><%= tp.getModuloAgendamento()%></td>
-                    <td><%= tp.getModuloAtendimento()%></td>
+                    <td><%= tp.getModuloAdmin() %></td>
+                    <td><%= tp.getModuloEstoque() %></td>
+                    <td><%= tp.getModuloFornecedores() %></td>
+                    <td><%= tp.getModuloMovimentacoes() %></td>
+                    <td><%= tp.getModuloCompras() %></td>
                     <td> 
                         <a href="<%= request.getContextPath() %>/home/app/adm/tipousuario_form.jsp?action=update&id=<%= tp.getId() %>">Alterar</a>
                         <a href="<%= request.getContextPath() %>/home?action=delete&id=<%= tp.getId() %>&task=tipousuario" onclick="return confirm('Deseja excluir TipoUsuario <%= tp.getId()%> (<%= tp.getNome() %>) ?')" >Excluir</a>
