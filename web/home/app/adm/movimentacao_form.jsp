@@ -1,46 +1,65 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.Produtos" %>
-<%@ page import="java.util.List" %>
-
+<%@page import="model.Movimentacoes"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Movimentação</title>
+    <meta charset="UTF-8">
+    <title>Movimentações</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 
+<%@ include file="/home/app/modulos.jsp"%>
+
 <%
-    List<Produtos> produtos = (List<Produtos>) request.getAttribute("produtos");
+    Movimentacoes mv = null;
+    String action = request.getParameter("action");
+
+    if (action == null) action = "create";
+    else if (action.equals("update")) {
+        int id = Integer.valueOf(request.getParameter("id"));
+        mv = new Movimentacoes();
+        mv.setId(id);
+        mv.load();
+    }
 %>
 
-<h1>Nova Movimentação</h1>
+<h1><%= action.equals("create") ? "Cadastrando Movimentação" : "Editando Movimentação" %></h1>
 
-<form action="MovimentacaoController" method="post">
+<form action="<%= request.getContextPath() %>/home?action=<%= action %>&task=movimentacoes" method="post">
 
-    <input type="hidden" name="action" value="inserir">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" pattern="\d+"
+           value="<%= (mv != null) ? mv.getId() : "" %>"
+           <%= (mv != null) ? "readonly" : "" %> required>
+    <br>
 
-    Tipo:<br>
-    <select name="tipo" required>
-        <option value="">Selecione</option>
-        <option value="entrada">Entrada</option>
-        <option value="saida">Saída</option>
-    </select><br><br>
+    <label for="tipo">Tipo:</label>
+    <input type="text" id="tipo" name="tipo"
+           value="<%= (mv != null) ? mv.getTipo() : "" %>">
+    <br>
 
-    Produto:<br>
-    <select name="produto_id" required>
-        <option value="">Selecione</option>
-        <% for (Produtos p : produtos) { %>
-            <option value="<%= p.getId() %>"><%= p.getNome() %></option>
-        <% } %>
-    </select><br><br>
+    <label for="qtdd">Quantidade:</label>
+    <input type="text" id="qtdd" name="qtdd" pattern="\d+"
+           value="<%= (mv != null) ? mv.getQtdd() : "" %>">
+    <br>
 
-    Quantidade:<br>
-    <input type="number" name="quantidade" required><br><br>
+    <label for="observacao">Observação:</label>
+    <input type="text" id="observacao" name="observacao"
+           value="<%= (mv != null) ? mv.getObservacao() : "" %>">
+    <br>
 
-    Observação:<br>
-    <input type="text" name="observacao"><br><br>
+    <label for="usuariosId">Usuário ID:</label>
+    <input type="text" id="usuariosId" name="usuariosId" pattern="\d+"
+           value="<%= (mv != null) ? mv.getUsuariosId() : "" %>">
+    <br>
 
-    <button type="submit">Salvar</button>
+    <label for="produtosId">Produto ID:</label>
+    <input type="text" id="produtosId" name="produtosId" pattern="\d+"
+           value="<%= (mv != null) ? mv.getProdutosId() : "" %>">
+    <br>
+
+    <input type="submit" value="Salvar">
 </form>
 
 </body>

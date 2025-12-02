@@ -11,21 +11,27 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class AutenticadorApp implements Filter {
-
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    
+   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+       
+       HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+       
+       HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+       
+       HttpSession sessao = httpServletRequest.getSession(false);
+       
+       if( ( sessao == null ) ||
+              (  sessao.getAttribute("usuario") == null ) || 
+              (  sessao.getAttribute("tipo_usuario") == null ) ) {
+           
+           httpServletRequest.setAttribute("msg", "faça o login!");
+           httpServletRequest.getRequestDispatcher("/home/login.jsp").forward(request, response);
+           
+       }  else {
+           // se logado, continue
+           chain.doFilter(request, response);
+       }
         
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        
-        HttpSession sessao = httpServletRequest.getSession(false);
-        
-        if ((sessao == null) || (sessao.getAttribute("usuario") == null) || (sessao.getAttribute("tipo_usuario") == null)) {
-            httpServletRequest.setAttribute("msg", "Por favor, faça o login!");
-            httpServletRequest.getRequestDispatcher("/home/login.jsp").forward(request, response);
-        } else{
-            // se logado, continue
-            chain.doFilter(request, response);
-        }
-    }
+    }    
+   
 }

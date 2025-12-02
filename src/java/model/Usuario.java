@@ -100,8 +100,8 @@ public class Usuario extends DataAccessObject {
         // segue a ordem das colunas da tabela usuarios (tem que ver certinho se esta desta forma)
         id = (int) data.get(0); // coluna 1
         nome = (String) data.get(1); // coluna 2
-        senha = (String) data.get(2);  // coluna 3
-        cpf = (String) data.get(3);// coluna 4
+        senha = (String) data.get(3);  // coluna 4
+        cpf = (String) data.get(2);// coluna 3
         email = (String) data.get(4);// coluna 5
         tipoUsuarioId = (int) data.get(5); // coluna 6
         

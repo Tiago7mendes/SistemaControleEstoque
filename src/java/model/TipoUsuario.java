@@ -57,7 +57,7 @@ public class TipoUsuario extends DataAccessObject {
 
     public void setModuloAdmin(String moduloAdmin) {
         this.moduloAdmin = moduloAdmin;
-        addChange("modulo_administrativo", this.moduloAdmin);
+        addChange("modulo_admin", this.moduloAdmin);
     }
 
     public void setModuloEstoque(String moduloEstoque) {

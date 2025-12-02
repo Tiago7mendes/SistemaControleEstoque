@@ -1,68 +1,70 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.Produtos" %>
-<%@ page import="model.Categorias" %>
-<%@ page import="model.Fornecedores" %>
-<%@ page import="java.util.List" %>
-
+<%@page import="model.Produtos"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Produto</title>
+    <meta charset="UTF-8">
+    <title>Produtos</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 
-<%
-    Produtos p = (Produtos) request.getAttribute("produto");
-    boolean editando = (p != null);
+<%@ include file="/home/app/modulos.jsp"%>
 
-    List<Categorias> categorias = (List<Categorias>) request.getAttribute("categorias");
-    List<Fornecedores> fornecedores = (List<Fornecedores>) request.getAttribute("fornecedores");
+<%
+    Produtos p = null;
+    String action = request.getParameter("action");
+
+    if (action == null) action = "create";
+    else if (action.equals("update")) {
+        int id = Integer.valueOf(request.getParameter("id"));
+        p = new Produtos();
+        p.setId(id);
+        p.load();
+    }
 %>
 
-<h1><%= editando ? "Editar Produto" : "Novo Produto" %></h1>
+<h1><%= action.equals("create") ? "Cadastrando Produto" : "Editando Produto" %></h1>
 
-<form action="ProdutoController" method="post">
+<form action="<%= request.getContextPath() %>/home?action=<%= action %>&task=produtos" method="post">
 
-    <input type="hidden" name="action" value="<%= editando ? "atualizar" : "inserir" %>">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" pattern="\d+"
+           value="<%= (p != null) ? p.getId() : "" %>"
+           <%= (p != null) ? "readonly" : "" %> required>
+    <br>
 
-    <% if (editando) { %>
-    <input type="hidden" name="id" value="<%= p.getId() %>">
-    <% } %>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome"
+           value="<%= (p != null) ? p.getNome() : "" %>">
+    <br>
 
-    Nome:<br>
-    <input type="text" name="nome" value="<%= editando ? p.getNome() : "" %>" required><br><br>
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" name="descricao"
+           value="<%= (p != null) ? p.getDescricao() : "" %>">
+    <br>
 
-    Descrição:<br>
-    <textarea name="descricao" required><%= editando ? p.getDescricao() : "" %></textarea><br><br>
+    <label for="valor">Valor:</label>
+    <input type="text" id="valor" name="valor" pattern="\d+(\.\d+)?"
+           value="<%= (p != null) ? p.getValor() : "" %>">
+    <br>
 
-    Valor:<br>
-    <input type="number" step="0.01" name="valor" value="<%= editando ? p.getValor() : "" %>" required><br><br>
+    <label for="qtdd_estoque">Quantidade em Estoque:</label>
+    <input type="text" id="qtdd_estoque" name="qtdd_estoque"
+           value="<%= (p != null) ? p.getQtdd_estoque() : "" %>">
+    <br>
 
-    Quantidade em Estoque:<br>
-    <input type="number" name="qtdd" value="<%= editando ? p.getQtdd_estoque() : "" %>" required><br><br>
+    <label for="categoriasId">Categoria ID:</label>
+    <input type="text" id="categoriasId" name="categoriasId" pattern="\d+"
+           value="<%= (p != null) ? p.getCategoriasId() : "" %>">
+    <br>
 
-    Categoria:<br>
-    <select name="categoria_id" required>
-        <option value="">Selecione</option>
-        <% for (Categorias c : categorias) { %>
-            <option value="<%= c.getId() %>" <%= editando && p.getCategoriasId() == c.getId() ? "selected" : "" %>>
-                <%= c.getNome() %>
-            </option>
-        <% } %>
-    </select><br><br>
+    <label for="fornecedoresId">Fornecedor ID:</label>
+    <input type="text" id="fornecedoresId" name="fornecedoresId" pattern="\d+"
+           value="<%= (p != null) ? p.getFornecedoresId() : "" %>">
+    <br>
 
-    Fornecedor:<br>
-    <select name="fornecedor_id" required>
-        <option value="">Selecione</option>
-        <% for (Fornecedores f : fornecedores) { %>
-            <option value="<%= f.getId() %>" <%= editando && p.getFornecedoresId() == f.getId() ? "selected" : "" %>>
-                <%= f.getNome() %>
-            </option>
-        <% } %>
-    </select><br><br>
-
-    <button type="submit">Salvar</button>
-    <a href="ProdutosController">Cancelar</a>
+    <input type="submit" value="Salvar">
 </form>
 
 </body>

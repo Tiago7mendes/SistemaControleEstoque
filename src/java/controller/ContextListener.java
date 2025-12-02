@@ -5,23 +5,28 @@ import jakarta.servlet.ServletContextListener;
 import logtrack.ExceptionLogTrack;
 import model.framework.DataBaseConnections;
 
-//@WebListener
-// importa isso import jakarta.servlet.annotation.WebListener;
-public class ContextListener implements ServletContextListener{
+public class ContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        System.out.println(AppConfig.getInstance());
-        System.out.println(ExceptionLogTrack.getInstance());
-        System.out.println(DataBaseConnections.getInstance());
+        
+        System.out.println( AppConfig.getInstance() );
+        System.out.println( ExceptionLogTrack.getInstance() );
+        System.out.println( DataBaseConnections.getInstance() );
+        
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        
         try {
+        
             DataBaseConnections.getInstance().closeAllConnection();
-        } catch (Exception ex) {
+            
+        } catch(Exception ex) {
             ExceptionLogTrack.getInstance().addLog(ex);
         }
-    }
+        
+    }    
+
 }

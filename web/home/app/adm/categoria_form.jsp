@@ -1,35 +1,47 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.Categorias" %>
-
+<%@page import="model.Categorias"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Categoria</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Categorias</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    </head>
+    <body>
 
-<%
-    Categorias c = (Categorias) request.getAttribute("categoria");
-    boolean editando = (c != null);
-%>
+        <%@ include file="/home/app/modulos.jsp"%>
 
-<h1><%= editando ? "Editar Categoria" : "Nova Categoria" %></h1>
+        <%
+            Categorias cat = null;
+            String action = request.getParameter("action");
 
-<form action="CategoriaController" method="post">
+            if (action == null) {
+                action = "create";
+            } else if (action.equals("update")) {
+                int id = Integer.valueOf(request.getParameter("id"));
 
-    <input type="hidden" name="action" value="<%= editando ? "atualizar" : "inserir" %>">
+                cat = new Categorias();
+                cat.setId(id);
+                cat.load();
+            }
+        %>
 
-    <% if (editando) { %>
-    <input type="hidden" name="id" value="<%= c.getId() %>">
-    <% } %>
+        <h1><%= (action.equals("create")) ? "Cadastrando Categoria" : "Editando Categoria" %></h1>
 
-    Nome: <br>
-    <input type="text" name="nome" value="<%= editando ? c.getNome() : "" %>" required>
-    <br><br>
+        <form action="<%= request.getContextPath()%>/home?action=<%= action %>&task=categorias" method="post">
 
-    <button type="submit">Salvar</button>
-    <a href="categorias.jsp">Cancelar</a>
-</form>
+            <label for="id">ID:</label>
+            <input type="text" id="id" name="id" pattern="\d+" 
+                   value="<%= (cat != null) ? cat.getId() : "" %>"
+                   <%= (cat != null) ? "readonly" : "" %> required>
+            <br>
 
-</body>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome"
+                   value="<%= (cat != null && cat.getNome() != null) ? cat.getNome() : "" %>">
+            <br>
+
+            <input type="submit" value="Salvar">
+        </form>
+    </body>
 </html>

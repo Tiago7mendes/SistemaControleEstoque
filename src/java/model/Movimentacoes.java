@@ -6,21 +6,21 @@ import model.framework.DataAccessObject;
 public class Movimentacoes extends DataAccessObject{
     
     private int id;
-    private Enum tipo;
+    private String tipo;
     private int qtdd;
     private String observacao;
     private int usuariosId;
     private int produtosId;
     
     public Movimentacoes() {
-        super("categorias");
+        super("movimentacoes");
     }
 
     public int getId() {
         return id;
     }
 
-    public Enum getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
@@ -45,7 +45,7 @@ public class Movimentacoes extends DataAccessObject{
         addChange("id", this.id);
     }
 
-    public void setTipo(Enum tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
         addChange("tipo", this.tipo);
     }
@@ -85,7 +85,7 @@ public class Movimentacoes extends DataAccessObject{
     protected DataAccessObject fill(ArrayList<Object> data) {
         // segue a ordem das colunas da tabela no banco de dados
         id = (int) data.get(0);
-        tipo = (Enum) data.get(1);
+        tipo = (String) data.get(1);
         qtdd = (int) data.get(2);
         observacao = (String) data.get(3);
         usuariosId = (int) data.get(4);

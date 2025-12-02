@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.TipoUsuario;
 
-public class AutenticadorAdm implements Filter {
+public class AutenticadorAtm implements Filter {
     
    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
        
@@ -23,7 +23,7 @@ public class AutenticadorAdm implements Filter {
        
        TipoUsuario tipoUsuario =  (TipoUsuario) sessao.getAttribute("tipo_usuario");
        
-       if( tipoUsuario.getModuloAdmin().equals("S") == false ) {
+       if( tipoUsuario.getModuloCompras().equals("S") == false ) {
            
            httpServletResponse.sendRedirect( httpServletRequest.getContextPath() + "/home/app/menu.jsp" );
            

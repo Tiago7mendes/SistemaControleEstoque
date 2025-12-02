@@ -1,46 +1,60 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="model.Fornecedores" %>
-
+<%@page import="model.Fornecedores"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Fornecedor</title>
+    <meta charset="UTF-8">
+    <title>Fornecedores</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 
+<%@ include file="/home/app/modulos.jsp"%>
+
 <%
-    Fornecedores f = (Fornecedores) request.getAttribute("fornecedor");
-    boolean editando = (f != null);
+    Fornecedores f = null;
+    String action = request.getParameter("action");
+
+    if (action == null) action = "create";
+    else if (action.equals("update")) {
+        int id = Integer.valueOf(request.getParameter("id"));
+        f = new Fornecedores();
+        f.setId(id);
+        f.load();
+    }
 %>
 
-<h1><%= editando ? "Editar Fornecedor" : "Novo Fornecedor" %></h1>
+<h1><%= action.equals("create") ? "Cadastrando Fornecedor" : "Editando Fornecedor" %></h1>
 
-<form action="FornecedorController" method="post">
+<form action="<%= request.getContextPath() %>/home?action=<%= action %>&task=fornecedores" method="post">
 
-    <input type="hidden" name="action" value="<%= editando ? "atualizar" : "inserir" %>">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" pattern="\d+"
+           value="<%= (f != null) ? f.getId() : "" %>"
+           <%= (f != null) ? "readonly" : "" %> required>
+    <br>
 
-    <% if (editando) { %>
-    <input type="hidden" name="id" value="<%= f.getId() %>">
-    <% } %>
+    <label for="nome">Nome:</label>
+    <input type="text" id="nome" name="nome"
+           value="<%= (f != null) ? f.getNome() : "" %>">
+    <br>
 
-    Nome: <br>
-    <input type="text" name="nome" value="<%= editando ? f.getNome() : "" %>" required>
-    <br><br>
+    <label for="cnpj">CNPJ:</label>
+    <input type="text" id="cnpj" name="cnpj"
+           value="<%= (f != null) ? f.getCnpj() : "" %>">
+    <br>
 
-    CNPJ: <br>
-    <input type="text" name="cnpj" value="<%= editando ? f.getCnpj() : "" %>">
-    <br><br>
+    <label for="telefone">Telefone:</label>
+    <input type="text" id="telefone" name="telefone"
+           value="<%= (f != null) ? f.getTelefone() : "" %>">
+    <br>
 
-    Telefone: <br>
-    <input type="text" name="telefone" value="<%= editando ? f.getTelefone() : "" %>">
-    <br><br>
+    <label for="endereco">Endereço:</label>
+    <input type="text" id="endereco" name="endereco"
+           value="<%= (f != null) ? f.getEndereco() : "" %>">
+    <br>
 
-    Endereço: <br>
-    <input type="text" name="endereco" value="<%= editando ? f.getEndereco() : "" %>">
-    <br><br>
-
-    <button type="submit">Salvar</button>
-    <a href="fornecedores.jsp">Cancelar</a>
+    <input type="submit" value="Salvar">
 </form>
 
 </body>

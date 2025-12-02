@@ -14,7 +14,7 @@ public class Produtos extends DataAccessObject{
     private int fornecedoresId;
     
     public Produtos() {
-        super("categorias");
+        super("produtos");
     }
 
     public int getId() {
