@@ -13,9 +13,6 @@ import model.*;
 
 public class FrontController extends HttpServlet {
 
-    // ============================================================
-    //                       MÉTODO GET
-    // ============================================================
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,12 +42,6 @@ public class FrontController extends HttpServlet {
         }
     }
 
-
-
-    // ============================================================
-    //                       MÉTODO POST
-    // ============================================================
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -78,12 +69,6 @@ public class FrontController extends HttpServlet {
             ExceptionLogTrack.getInstance().addLog(ex);
         }
     }
-
-
-
-    // ============================================================
-    //                     GET — DELETE
-    // ============================================================
 
     private void doGetTipoUsuario(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -180,12 +165,6 @@ public class FrontController extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/home/login.jsp");
     }
-
-
-
-    // ============================================================
-    //                     POST — CREATE / UPDATE
-    // ============================================================
 
     private void doPostTipoUsuario(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -345,37 +324,57 @@ public class FrontController extends HttpServlet {
     private void doPostLogin(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.valueOf( request.getParameter("id") );        
         String senha = request.getParameter("senha");
-
-        Usuario temp = new Usuario();
-        temp.setId(id);
-
-        if (!temp.load()) {
-            request.setAttribute("msg", "id ou senha incorretos");
-            request.getRequestDispatcher("/home/login.jsp").forward(request, response);
-            return;
+        
+        Usuario usuarioTry = new Usuario();
+        usuarioTry.setId(id);
+        usuarioTry.setSenha(senha);
+        
+        Usuario usuario = new Usuario();
+        usuario.setId(id);        
+        boolean status = usuario.load();
+        
+        if( ( status == true ) &&
+              ( usuario.getSenha().equals( usuarioTry.getSenha() ) ) ) {
+            
+            // true crie um sessão se não houver alguma, false do contrário
+            // informações amarmazenadas no servidor
+            HttpSession sessao = request.getSession(false);
+            if( sessao != null ) {
+                sessao.removeAttribute("usuario");
+                sessao.removeAttribute("tipo_usuario");
+           
+                sessao.invalidate();
+            }
+            
+            sessao = request.getSession(true);
+            
+            sessao.setAttribute( "usuario", "(" + usuario.getNome() + ", " + usuario.getId() + ")" );
+            
+            TipoUsuario tipoUsuario = new TipoUsuario();
+            tipoUsuario.setId( usuario.getTipoUsuarioId() );
+            tipoUsuario.load();
+            
+            sessao.setAttribute( "tipo_usuario", tipoUsuario );
+            
+            sessao.setMaxInactiveInterval( 60 * 60 ); // em segundos
+            
+            // criado e armazenado no cliente
+            Cookie cookie = new Cookie( "id", String.valueOf(id) );
+            cookie.setMaxAge( 60 * 10 ); // em segundos
+            response.addCookie(cookie);
+            
+            // faz com que o cliente acesse o recurso
+            response.sendRedirect( request.getContextPath() +  "/home/app/menu.jsp" );
+            
+        } else {
+            
+            // faz com que o servidor acesso o recurso
+            request.setAttribute("msg", "id e/ou senha incorreto(s)");
+            request.getRequestDispatcher( "/home/login.jsp" ).forward(request, response);
         }
 
-        if (!temp.getSenha().equals(senha)) {
-            request.setAttribute("msg", "id ou senha incorretos");
-            request.getRequestDispatcher("/home/login.jsp").forward(request, response);
-            return;
-        }
-
-        HttpSession sessao = request.getSession(true);
-        sessao.setAttribute("usuario", temp);
-
-        TipoUsuario t = new TipoUsuario();
-        t.setId(temp.getTipoUsuarioId());
-        t.load();
-        sessao.setAttribute("tipo_usuario", t);
-
-        Cookie ck = new Cookie("id", String.valueOf(id));
-        ck.setMaxAge(600);
-        response.addCookie(ck);
-
-        response.sendRedirect(request.getContextPath() + "/home/app/menu.jsp");
     }
 
 

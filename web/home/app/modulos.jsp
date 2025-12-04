@@ -13,12 +13,24 @@
     <li>
         <a href="<%= request.getContextPath()%>/home/app/menu.jsp">Menu</a>
     </li>
-    <%if(tipoUsuarioLogado.getModuloAdministrativo().equals("S")){%>
+    <%if(tipoUsuarioLogado.getModuloAdmin().equals("S")){%>
         <li>
             <a href="<%= request.getContextPath()%>/home/app/adm/usuario.jsp">Usuarios</a>
         </li>
         <li>
             <a href="<%= request.getContextPath()%>/home/app/adm/tipousuario.jsp">Tipo Usuario</a>
+        </li>
+        <li>
+            <a href="<%= request.getContextPath()%>/home/app/adm/categorias.jsp">Categorias</a>
+        </li>
+        <li>
+            <a href="<%= request.getContextPath()%>/home/app/adm/fornecedores.jsp">Fornecedores</a>
+        </li>
+        <li>
+            <a href="<%= request.getContextPath()%>/home/app/adm/movimentacoes.jsp">Movimentacao</a>
+        </li>
+        <li>
+            <a href="<%= request.getContextPath()%>/home/app/adm/produtos.jsp">Produtos</a>
         </li>
     <%}%>
     <li>
