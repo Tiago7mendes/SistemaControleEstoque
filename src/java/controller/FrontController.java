@@ -59,6 +59,7 @@ public class FrontController extends HttpServlet {
                 case "produtos": doPostProduto(request, response); break;
                 case "fornecedores": doPostFornecedor(request, response); break;
                 case "movimentacoes": doPostMovimentacao(request, response); break;
+                case "create_public_user": doPostCreatePublicUser(request, response); break;
 
                 case "login": doPostLogin(request, response); break;
 
@@ -329,6 +330,51 @@ public class FrontController extends HttpServlet {
     response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacoes.jsp");
 }
 
+    private void doPostCreatePublicUser(HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+
+    int id = Integer.parseInt(request.getParameter("id"));
+
+    // 1. Verificar se o ID já existe
+    Usuario check = new Usuario();
+    check.setId(id);
+    boolean existe = check.load(); // retorna true se encontrou
+
+    if (existe) {
+        request.setAttribute("msg", "O ID " + id + " já está em uso. Escolha outro.");
+        request.getRequestDispatcher("/home/cadastro.jsp").forward(request, response);
+        return;
+    }
+
+    // 2. Criar o TipoUsuario padrão do cliente
+    TipoUsuario tipo = new TipoUsuario();
+    tipo.setId(id);
+    tipo.setNome("ClienteCadastro");
+
+    // libera apenas compras
+    tipo.setModuloAdmin("N");
+    tipo.setModuloEstoque("N");
+    tipo.setModuloFornecedores("N");
+    tipo.setModuloMovimentacoes("N");
+    tipo.setModuloCompras("S");
+
+    tipo.save();
+
+    // 3. Criar o Usuario
+    Usuario u = new Usuario();
+    u.setId(id);
+    u.setNome(request.getParameter("nome"));
+    u.setCpf(request.getParameter("cpf"));
+    u.setEmail(request.getParameter("email"));
+    u.setSenha(request.getParameter("senha"));
+    u.setTipoUsuarioId(id); // tipo criado acima
+
+    u.save();
+
+    // 4. Após cadastrar, voltar para login com mensagem
+    request.setAttribute("msg", "Cadastro realizado com sucesso! Faça login.");
+    request.getRequestDispatcher("/home/login.jsp").forward(request, response);
+}
 
     private void doPostLogin(HttpServletRequest request, HttpServletResponse response)
             throws Exception {

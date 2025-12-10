@@ -48,6 +48,9 @@
             
             <input type="submit" value="Login">
             
+            <a href="<%= request.getContextPath() %>/home/cadastro.jsp" style="align-items: flex-start">
+                <button type="button">Cadastrar-se</button>
+            </a>
         </form>
     </body>
 </html>
