@@ -12,6 +12,16 @@
 <%@ include file="/home/app/modulos.jsp"%>
 
 <%
+    String erro = (String) session.getAttribute("erroEstoque");
+    if (erro != null) {
+%>
+    <div style="color:red; font-weight:bold"><%= erro %></div>
+<%
+        session.removeAttribute("erroEstoque");
+    }
+%>
+
+<%
     Movimentacoes mv = null;
     String action = request.getParameter("action");
 

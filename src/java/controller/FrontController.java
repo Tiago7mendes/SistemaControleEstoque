@@ -275,50 +275,59 @@ public class FrontController extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/home/app/adm/produtos.jsp");
     }
 
-
-
     private void doPostMovimentacao(HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+        throws Exception {
 
-        String action = request.getParameter("action");
+    String action = request.getParameter("action");
 
-        Movimentacoes m = new Movimentacoes();
-        m.setId(Integer.parseInt(request.getParameter("id")));
+    Movimentacoes m = new Movimentacoes();
+    m.setId(Integer.parseInt(request.getParameter("id")));
 
-        if ("update".equals(action)) m.load();
+    if ("update".equals(action)) m.load();
 
-        String tipo = request.getParameter("tipo");
-        int qtdd = Integer.parseInt(request.getParameter("qtdd"));
-        int produtoId = Integer.parseInt(request.getParameter("produtosId"));
+    String tipo = request.getParameter("tipo");
+    int qtdd = Integer.parseInt(request.getParameter("qtdd"));
+    int produtoId = Integer.parseInt(request.getParameter("produtosId"));
 
-        // Usuário logado
-        HttpSession sessao = request.getSession();
-        TipoUsuario tu = (TipoUsuario) sessao.getAttribute("tipo_usuario");
+    // Usuário logado
+    HttpSession sessao = request.getSession();
+    TipoUsuario tu = (TipoUsuario) sessao.getAttribute("tipo_usuario");
 
-        m.setTipo(tipo);
-        m.setQtdd(qtdd);
-        m.setProdutosId(produtoId);
-        m.setUsuariosId(tu.getId());
-        m.setObservacao(request.getParameter("observacao"));
+    m.setTipo(tipo);
+    m.setQtdd(qtdd);
+    m.setProdutosId(produtoId);
+    m.setUsuariosId(tu.getId());
+    m.setObservacao(request.getParameter("observacao"));
 
-        m.save();
+    // Carrega o produto antes de salvar
+    Produtos p = new Produtos();
+    p.setId(produtoId);
+    p.load();
 
-        // Atualiza o estoque corretamente
-        Produtos p = new Produtos();
-        p.setId(produtoId);
-        p.load();
+    if ("SAIDA".equalsIgnoreCase(tipo)) {
+        if (qtdd > p.getQtdd_estoque()) {
+            // Não pode retirar mais do que tem
+            request.getSession().setAttribute("erroEstoque", 
+                "Não é possível retirar " + qtdd + 
+                " itens. Estoque disponível: " + p.getQtdd_estoque());
 
-        if ("ENTRADA".equals(tipo)) {
-            p.setQtdd_estoque(p.getQtdd_estoque() + qtdd);
-        } else {
-            p.setQtdd_estoque(p.getQtdd_estoque() - qtdd);
+            response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacao_form.jsp?action=create");
+            return; // *** importantíssimo! para parar o fluxo ***
         }
-
-        p.save();
-
-        response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacoes.jsp");
+        // baixa no estoque
+        p.setQtdd_estoque(p.getQtdd_estoque() - qtdd);
+    } 
+    else if ("ENTRADA".equalsIgnoreCase(tipo)) {
+        // adiciona no estoque
+        p.setQtdd_estoque(p.getQtdd_estoque() + qtdd);
     }
 
+    // se passou pela validação, salva movimentação + produto
+    m.save();
+    p.save();
+
+    response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacoes.jsp");
+}
 
 
     private void doPostLogin(HttpServletRequest request, HttpServletResponse response)
