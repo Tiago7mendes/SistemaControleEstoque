@@ -1,55 +1,76 @@
 <%@page import="model.Fornecedores"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%
+    ArrayList<Fornecedores> dados = new Fornecedores().getAllTableEntities();
+    String msg = (String) request.getAttribute("msg");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Fornecedores</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/colors.css">
 </head>
+
 <body>
-    <%@ include file="/home/app/modulos.jsp"%>
 
-    <% ArrayList<Fornecedores> dados = new Fornecedores().getAllTableEntities(); %>
+<%@ include file="/home/app/modulos.jsp"%>
 
-    <h1>Fornecedores</h1>
-    <div class="container">
+<% if (msg != null) { %>
+<script>alert("<%= msg %>");</script>
+<% } %>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>CNPJ</th>
-                <th>Telefone</th>
-                <th>Endereço</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
+<h1>Fornecedores</h1>
 
-        <tbody>
-            <% for(Fornecedores f : dados) { %>
-            <tr>
-                <td><%= f.getId() %></td>
-                <td><%= f.getNome() %></td>
-                <td><%= f.getCnpj() %></td>
-                <td><%= f.getTelefone() %></td>
-                <td><%= f.getEndereco() %></td>
+<div class="container">
 
-                <td>
-                    <a href="<%= request.getContextPath() %>/home/app/adm/fornecedor_form.jsp?action=update&id=<%= f.getId() %>">Alterar</a>
-                    <a href="<%= request.getContextPath() %>/home?action=delete&id=<%= f.getId() %>&task=fornecedores"
-                       onclick="return confirm('Deseja excluir Fornecedor <%= f.getId() %> (<%= f.getNome() %>) ?')">
-                        Excluir
-                    </a>
-                </td>
-            </tr>
-            <% } %>
-        </tbody>
-    </table>
-    </div>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>CNPJ</th>
+            <th>Telefone</th>
+            <th>Endereço</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
 
-    <a href="<%= request.getContextPath() %>/home/app/adm/fornecedor_form.jsp?action=create">Adicionar</a>
+    <tbody>
+        <% for (Fornecedores f : dados) { %>
+        <tr>
+            <td><%= f.getId() %></td>
+            <td><%= f.getNome() %></td>
+            <td><%= f.getCnpj() %></td>
+            <td><%= f.getTelefone() %></td>
+            <td><%= f.getEndereco() %></td>
+
+            <td>
+                <a class="btn"
+                   href="<%= request.getContextPath()%>/home/app/adm/fornecedor_form.jsp?action=update&id=<%= f.getId() %>">
+                   Editar
+                </a>
+
+                <a class="btn" style="background:#c0392b;"
+                   href="<%= request.getContextPath()%>/home?task=fornecedores&action=delete&id=<%= f.getId() %>"
+                   onclick="return confirm('Excluir fornecedor?')">
+                   Excluir
+                </a>
+            </td>
+        </tr>
+
+        <% } %>
+    </tbody>
+</table>
+
+</div>
+
+<a class="btn" style="max-width:200px; margin:20px auto; display:block; text-align:center;"
+   href="<%= request.getContextPath() %>/home/app/adm/fornecedor_form.jsp?action=create">
+    Adicionar Fornecedor
+</a>
+
 </body>
 </html>

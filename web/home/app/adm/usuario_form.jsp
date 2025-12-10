@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Usuario</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/colors.css">
     </head>
     <body>
         <%@ include file="/home/app/modulos.jsp"%>
@@ -44,7 +44,7 @@
             <br>
             
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<%= ((us != null)) ? us.getEmail() : "" %>" required>
+            <input type="email" id="email" name="email" value="<%= ((us != null)) ? us.getEmail() : "" %>">
             <br>
             
             <label for="tipoUsuario">Tipo Usuario:</label>

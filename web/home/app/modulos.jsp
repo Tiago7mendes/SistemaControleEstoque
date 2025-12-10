@@ -15,7 +15,7 @@
 <html>
 <head>
     <title>Menu</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/colors.css">
 
     <style>
 
