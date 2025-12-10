@@ -45,8 +45,10 @@
     <br>
 
     <label for="tipo">Tipo:</label>
-    <input type="text" id="tipo" name="tipo"
-           value="<%= (mv != null) ? mv.getTipo() : "" %>">
+    <select id="tipo" name="tipo" required>
+        <option value="entrada">Entrada</option>
+        <option value="saida">Saida</option>
+    </select>
     <br>
 
     <label for="qtdd">Quantidade:</label>
