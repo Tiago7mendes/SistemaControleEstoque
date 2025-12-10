@@ -1,52 +1,59 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.Produtos" %>
-<%@ page import="model.Categorias" %>
-<%@ page import="model.Fornecedores" %>
-
+<%@page import="model.Produtos"%>
+<%@page import="java.util.ArrayList"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Produtos</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+    <%@ include file="/home/app/modulos.jsp"%>
 
-<h1>Produtos</h1>
+    <% ArrayList<Produtos> dados = new Produtos().getAllTableEntities(); %>
 
-<a href="ProdutoController?action=formNovo">+ Novo Produto</a>
-<br><br>
+    <h1>Produtos</h1>
+    <div class="container">
 
-<table border="1" cellpadding="8">
-    <tr>
-        <th>ID</th>
-        <th>Nome</th>
-        <th>Categoria</th>
-        <th>Fornecedor</th>
-        <th>Valor</th>
-        <th>Quantidade</th>
-        <th>Ações</th>
-    </tr>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Qtdd Estoque</th>
+                <th>Categoria</th>
+                <th>Fornecedor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
 
-    <%
-        List<Produtos> lista = (List<Produtos>) request.getAttribute("lista");
-        if (lista != null) {
-            for (Produtos p : lista) {
-    %>
-    <tr>
-        <td><%= p.getId() %></td>
-        <td><%= p.getNome() %></td>
-        <td><%= p.getCategoriasId() %></td>
-        <td><%= p.getFornecedoresId() %></td>
-        <td>R$ <%= p.getValor() %></td>
-        <td><%= p.getQtdd_estoque() %></td>
-        <td>
-            <a href="ProdutoController?action=editar&id=<%= p.getId() %>">Editar</a> |
-            <a href="ProdutoController?action=excluir&id=<%= p.getId() %>"
-               onclick="return confirm('Confirmar exclusão?')">Excluir</a>
-        </td>
-    </tr>
-    <%  } } %>
-</table>
+        <tbody>
+            <% for(Produtos p : dados) { %>
+            <tr>
+                <td><%= p.getId() %></td>
+                <td><%= p.getNome() %></td>
+                <td><%= p.getDescricao() %></td>
+                <td><%= p.getValor() %></td>
+                <td><%= p.getQtdd_estoque() %></td>
+                <td><%= p.getCategoriasId() %></td>
+                <td><%= p.getFornecedoresId() %></td>
 
+                <td>
+                    <a href="<%= request.getContextPath() %>/home/app/adm/produto_form.jsp?action=update&id=<%= p.getId() %>">Alterar</a>
+                    <a href="<%= request.getContextPath() %>/home?action=delete&id=<%= p.getId() %>&task=produtos"
+                       onclick="return confirm('Deseja excluir Produto <%= p.getId() %> (<%= p.getNome() %>) ?')">
+                        Excluir
+                    </a>
+                </td>
+            </tr>
+            <% } %>
+        </tbody>
+    </table>
+    </div>
+
+    <a href="<%= request.getContextPath() %>/home/app/adm/produto_form.jsp?action=create">Adicionar</a>
 </body>
 </html>

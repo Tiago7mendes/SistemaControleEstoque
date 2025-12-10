@@ -122,7 +122,7 @@ public class FrontController extends HttpServlet {
             p.delete();
         }
 
-        response.sendRedirect(request.getContextPath() + "/home/app/estoque/produtos.jsp");
+        response.sendRedirect(request.getContextPath() + "/home/app/adm/produtos.jsp");
     }
 
 
@@ -135,7 +135,7 @@ public class FrontController extends HttpServlet {
             f.delete();
         }
 
-        response.sendRedirect(request.getContextPath() + "/home/app/fornecedores/fornecedores.jsp");
+        response.sendRedirect(request.getContextPath() + "/home/app/adm/fornecedores.jsp");
     }
 
 
@@ -148,7 +148,7 @@ public class FrontController extends HttpServlet {
             m.delete();
         }
 
-        response.sendRedirect(request.getContextPath() + "/home/app/estoque/movimentacoes.jsp");
+        response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacoes.jsp");
     }
 
 
@@ -248,7 +248,7 @@ public class FrontController extends HttpServlet {
 
         f.save();
 
-        response.sendRedirect(request.getContextPath() + "/home/app/fornecedores/fornecedores.jsp");
+        response.sendRedirect(request.getContextPath() + "/home/app/adm/fornecedores.jsp");
     }
 
 
@@ -272,7 +272,7 @@ public class FrontController extends HttpServlet {
 
         p.save();
 
-        response.sendRedirect(request.getContextPath() + "/home/app/estoque/produtos.jsp");
+        response.sendRedirect(request.getContextPath() + "/home/app/adm/produtos.jsp");
     }
 
 
@@ -289,7 +289,7 @@ public class FrontController extends HttpServlet {
 
         String tipo = request.getParameter("tipo");
         int qtdd = Integer.parseInt(request.getParameter("qtdd"));
-        int produtoId = Integer.parseInt(request.getParameter("produtoId"));
+        int produtoId = Integer.parseInt(request.getParameter("produtosId"));
 
         // Usuário logado
         HttpSession sessao = request.getSession();
@@ -316,7 +316,7 @@ public class FrontController extends HttpServlet {
 
         p.save();
 
-        response.sendRedirect(request.getContextPath() + "/home/app/estoque/movimentacoes.jsp");
+        response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacoes.jsp");
     }
 
 
