@@ -33,6 +33,11 @@
             <a href="<%= request.getContextPath()%>/home/app/adm/produtos.jsp">Produtos</a>
         </li>
     <%}%>
+    <%if(tipoUsuarioLogado.getModuloCompras().equals("S")){%>
+        <li>
+            <a href="<%= request.getContextPath() %>/home?task=listarCompras">Comprar</a>
+        </li>
+    <%}%>
     <li>
         <a href="<%= request.getContextPath()%>/home?task=logout">Logout<%= session.getAttribute("usuario") %></a>
     </li>

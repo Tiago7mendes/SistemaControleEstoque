@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 import logtrack.ExceptionLogTrack;
 import model.*;
+import model.framework.MovimentacoesDAO;
 
 public class FrontController extends HttpServlet {
 
@@ -20,7 +22,7 @@ public class FrontController extends HttpServlet {
 
         String task = request.getParameter("task");
         if (task == null) task = "";
-
+        
         try {
             switch (task) {
 
@@ -31,6 +33,8 @@ public class FrontController extends HttpServlet {
                 case "produtos": doGetProduto(request, response); break;
                 case "fornecedores": doGetFornecedor(request, response); break;
                 case "movimentacoes": doGetMovimentacao(request, response); break;
+                
+                case "listarCompras": doGetListarCompras(request, response); break;
 
                 case "logout": doGetLogout(request, response); break;
 
@@ -59,7 +63,9 @@ public class FrontController extends HttpServlet {
                 case "produtos": doPostProduto(request, response); break;
                 case "fornecedores": doPostFornecedor(request, response); break;
                 case "movimentacoes": doPostMovimentacao(request, response); break;
+                
                 case "create_public_user": doPostCreatePublicUser(request, response); break;
+                case "comprarProduto": doPostComprarProduto(request, response); break;
 
                 case "login": doPostLogin(request, response); break;
 
@@ -151,6 +157,20 @@ public class FrontController extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() + "/home/app/adm/movimentacoes.jsp");
     }
+    
+    private void doGetListarCompras(HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+
+    Produtos p = new Produtos();
+    ArrayList<Produtos> lista = p.getAllTableEntities();
+
+    System.out.println("DEBUG: doGetListarCompras foi chamado!");
+    System.out.println("DEBUG: qtde produtos = " + lista.size());
+
+    request.setAttribute("produtos", lista);
+    request.getRequestDispatcher("/home/app/cp/compras.jsp").forward(request, response);
+}
+
 
 
     private void doGetLogout(HttpServletRequest request, HttpServletResponse response)
@@ -375,6 +395,58 @@ public class FrontController extends HttpServlet {
     request.setAttribute("msg", "Cadastro realizado com sucesso! Faça login.");
     request.getRequestDispatcher("/home/login.jsp").forward(request, response);
 }
+    
+    private void doPostComprarProduto(HttpServletRequest request, HttpServletResponse response)
+        throws Exception {
+
+        int produtoId = Integer.parseInt(request.getParameter("id_produto"));
+        int quantidade = Integer.parseInt(request.getParameter("quantidade"));
+
+        // Carrega produto
+        Produtos p = new Produtos();
+        p.setId(produtoId);
+        p.load();
+
+        // Validar estoque
+        if (quantidade > p.getQtdd_estoque()) {
+
+            request.setAttribute("msg", "A quantidade solicitada é maior que o estoque disponível.");
+            request.setAttribute("produtos", new Produtos().getAllTableEntities());
+
+            request.getRequestDispatcher("/home/app/cp/compras.jsp")
+                   .forward(request, response);
+            return;
+        }
+
+        // Atualizar estoque
+        p.setQtdd_estoque(p.getQtdd_estoque() - quantidade);
+        p.save();
+
+        // Criar movimentação
+        HttpSession sessao = request.getSession();
+        TipoUsuario tu = (TipoUsuario) sessao.getAttribute("tipo_usuario");
+
+        Movimentacoes m = new Movimentacoes();
+
+        // NOVO: gerar ID manualmente
+        MovimentacoesDAO movDAO = new MovimentacoesDAO();
+        int novoId = movDAO.getMaxId() + 1;
+        m.setId(novoId);
+
+        m.setTipo("saida");
+        m.setQtdd(quantidade);
+        m.setProdutosId(produtoId);
+        m.setUsuariosId(tu.getId());
+        m.setObservacao("Compra realizada no módulo de compras.");
+
+        m.save();
+
+        // Mensagem de sucesso
+        request.setAttribute("msg", "Compra realizada com sucesso!");
+        request.setAttribute("produtos", new Produtos().getAllTableEntities());
+
+        request.getRequestDispatcher("/home/app/cp/compras.jsp").forward(request, response);
+}
 
     private void doPostLogin(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
@@ -431,8 +503,6 @@ public class FrontController extends HttpServlet {
         }
 
     }
-
-
 
     private void doDefault(HttpServletRequest request, HttpServletResponse response)
             throws IOException {

@@ -66,6 +66,19 @@ public abstract class DataAccessObject {
         setChangedEntity(true);
     }
     
+    protected ResultSet executeQuery(String sql) throws SQLException {
+        if (AppConfig.getInstance().isVerbose()) {
+            System.out.println(sql);
+        }
+
+        Connection con = DataBaseConnections.getInstance().getConnection();
+        Statement st = con.createStatement();
+
+        // NÃO fechar o statement aqui — precisa devolver o ResultSet
+        return st.executeQuery(sql);
+    }
+
+    
     // Insere um novo registro no banco de dados com os campos em dirtyFields
     private void insert() throws SQLException{
         String dml = "INSERT INTO " + getTableEntity();

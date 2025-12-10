@@ -1,4 +1,6 @@
-/* ===== RESET BÁSICO ===== */
+/* =======================================================
+   RESET & BASE
+   ======================================================= */
 * {
   margin: 0;
   padding: 0;
@@ -7,151 +9,225 @@
 }
 
 body {
-  background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
   min-height: 100vh;
   padding: 30px;
-  color: #333;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* ===== TÍTULOS ===== */
+/* =======================================================
+   PALETA AZUL: CLARO / ESCURO AUTOMÁTICOS
+   ======================================================= */
+
+/* Tema Claro */
+:root {
+  --bg: #e7f0ff;
+  --bg-card: #ffffff;
+  --bg-table-alt: #f2f6ff;
+
+  --text: #24324a;
+  --text-light: #55627a;
+  --title: #1b4ea3;
+
+  --border: #c2d3f0;
+  --shadow: rgba(0, 0, 0, 0.08);
+
+  /* Azul corporativo */
+  --primary: #1a57c6;
+  --primary-hover: #0f3f96;
+
+  /* Verde corporativo (botão adicionar) */
+  --green: #1fa55a;
+  --green-hover: #177c43;
+
+  --input-border: #a4b7dd;
+  --input-focus: #1a57c6;
+
+  --link: #1a57c6;
+  --link-hover: #0f3f96;
+}
+
+/* Tema Escuro */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d111a;
+    --bg-card: #161d2b;
+    --bg-table-alt: #1c2538;
+
+    --text: #e0e6f2;
+    --text-light: #a4b1cc;
+    --title: #7eb3ff;
+
+    --border: #2b3850;
+    --shadow: rgba(0, 0, 0, 0.45);
+
+    --primary: #4a8bff;
+    --primary-hover: #3268cc;
+
+    --green: #34d274;
+    --green-hover: #1f9f55;
+
+    --input-border: #3a4a68;
+    --input-focus: #4a8bff;
+
+    --link: #7eb3ff;
+    --link-hover: #a8ccff;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* =======================================================
+   TÍTULOS
+   ======================================================= */
 h1 {
   text-align: center;
   margin-bottom: 25px;
-  color: #2a4b8d;
-  font-size: 2rem;
+  color: var(--title);
+  font-size: 2.2rem;
+  letter-spacing: 0.5px;
 }
 
-/* ===== FORMULÁRIOS ===== */
-form {
-  background-color: #ffffff;
-  max-width: 600px;
+/* =======================================================
+   CARTÕES E FORMULÁRIOS
+   ======================================================= */
+form,
+.container {
+  background-color: var(--bg-card);
+  max-width: 900px;
   margin: 0 auto;
   padding: 25px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 20px var(--shadow);
 }
 
+/* =======================================================
+   FORMULÁRIO
+   ======================================================= */
 label {
   display: block;
   margin-top: 15px;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text);
+  font-size: 1rem;
 }
 
 input[type="text"],
+input[type="email"],
+input[type="password"],
 input[type="number"],
 select {
   width: 100%;
-  padding: 10px 12px;
-  margin-top: 5px;
-  border: 1px solid #bfc9e1;
-  border-radius: 8px;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  background-color: var(--bg-card);
+  color: var(--text);
   font-size: 1rem;
-  transition: all 0.2s;
+  transition: 0.25s;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus {
-  border-color: #2a4b8d;
+input:focus {
+  border-color: var(--input-focus);
+  box-shadow: 0 0 8px var(--input-focus);
   outline: none;
-  box-shadow: 0 0 5px rgba(42, 75, 141, 0.3);
 }
 
-/* ===== CHECKBOXES ===== */
 input[type="checkbox"] {
-  transform: scale(1.2);
+  transform: scale(1.25);
   margin-right: 8px;
   cursor: pointer;
 }
 
-/* ===== BOTÕES ===== */
+/* =======================================================
+   BOTÕES
+   ======================================================= */
 input[type="submit"],
+button,
 a.btn {
   display: inline-block;
-  background-color: #2a4b8d;
+  background-color: var(--primary);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 10px 18px;
+  border-radius: 10px;
+  padding: 12px 20px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.3s;
+  transition: 0.3s ease;
   margin-top: 20px;
 }
 
 input[type="submit"]:hover,
+button:hover,
 a.btn:hover {
-  background-color: #1d3463;
-  transform: scale(1.03);
+  background-color: var(--primary-hover);
+  transform: scale(1.04);
 }
 
-/* ===== TABELA ===== */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+a.btn-green,
+a[href*="create"] {
+  background-color: var(--green);
 }
 
+a.btn-green:hover,
+a[href*="create"]:hover {
+  background-color: var(--green-hover);
+}
+
+/* =======================================================
+   TABELAS
+   ======================================================= */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  color: var(--text);
+  font-size: 0.95rem;
 }
 
 thead {
-  background-color: #2a4b8d;
+  background-color: var(--primary);
   color: #fff;
 }
 
 th, td {
-  padding: 12px 15px;
-  border-bottom: 1px solid #dcdcdc;
-  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
 }
 
 tbody tr:nth-child(even) {
-  background-color: #f5f8ff;
+  background-color: var(--bg-table-alt);
 }
 
 tbody tr:hover {
-  background-color: #e8efff;
+  background-color: var(--input-border);
+  transition: 0.2s;
 }
 
-/* ===== LINKS DE AÇÃO ===== */
+/* =======================================================
+   AÇÕES (Alterar / Excluir)
+   ======================================================= */
 td a {
-  color: #2a4b8d;
-  text-decoration: none;
-  margin-right: 10px;
+  color: var(--link);
   font-weight: 600;
+  text-decoration: none;
+  margin-right: 12px;
 }
 
 td a:hover {
-  color: #1b2f5d;
+  color: var(--link-hover);
   text-decoration: underline;
 }
 
-/* ===== BOTÃO ADICIONAR ===== */
-a[href*="create"] {
-  display: inline-block;
-  background-color: #28a745;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-a[href*="create"]:hover {
-  background-color: #1f7d36;
-}
-
-/* ===== RESPONSIVIDADE ===== */
+/* =======================================================
+   RESPONSIVIDADE
+   ======================================================= */
 @media (max-width: 700px) {
   form, .container {
     padding: 20px;
@@ -159,10 +235,9 @@ a[href*="create"]:hover {
 
   th, td {
     padding: 10px 8px;
-    font-size: 0.9rem;
   }
 
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
   }
 }
