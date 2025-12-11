@@ -73,7 +73,7 @@ public class Usuario extends DataAccessObject {
         } else {
             if (senha.equals(this.senha) == false) {
                 String senhaSal = getId() + senha + getId() / 2; // para "criptocrafar"
-                MessageDigest md = MessageDigest.getInstance("SHA-256");
+                MessageDigest md = MessageDigest.getInstance("SHA-512");
                 String hash = new BigInteger( 1, md.digest(senhaSal.getBytes("UTF-8"))).toString(16);
                 
                 this.senha = hash;
