@@ -34,6 +34,10 @@
         <filter-name>AutenticadorAtm</filter-name>
         <url-pattern>/home/app/cp/*</url-pattern>
     </filter-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/home/erro.html</location>
+    </error-page>
     <servlet>
         <servlet-name>GetPost</servlet-name>
         <servlet-class>aulas.servlet.getpost.GetPost</servlet-class>
